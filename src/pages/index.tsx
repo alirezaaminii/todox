@@ -1,11 +1,8 @@
 import Head from 'next/head'
-import {categoryMock, taskMock} from "@/mocks";
 import Category from "@/components/category";
-import {Layout} from "@/layout";
 import React from "react";
-
-const categories = [categoryMock, categoryMock, categoryMock,categoryMock, categoryMock, categoryMock,categoryMock, categoryMock, categoryMock,categoryMock];
-const tasks = [taskMock, taskMock, taskMock, taskMock];
+import tasksData from './api/tasks/tasks.json';
+import categoriesData from './api/tasks/categories.json';
 
 export default function Home() {
   return (
@@ -16,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {
-        categories.map((category) => <Category {...category} key={category.id} tasks={tasks}/>)
+        categoriesData.categories.map((category) => <Category {...category} key={category.id} tasks={tasksData.tasks}/>)
       }
     </>
   )

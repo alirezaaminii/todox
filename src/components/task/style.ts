@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import {TaskStatus} from "@/types/task";
 import {colors} from "@/styles/colors";
 
 interface Props {
-  status: TaskStatus;
+  status: string;
 }
 
 export const TaskStyles = styled.div<Props>`

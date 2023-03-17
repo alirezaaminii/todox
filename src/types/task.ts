@@ -1,8 +1,9 @@
 interface TaskInterface {
   id: number;
   name: string;
-  createdAt: Date;
-  status: TaskStatus;
+  createdAt: string;
+  status: string;
+  categoryId: number;
 }
 
 export type TaskStatus = 'pending' | 'done';
