@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import tasksData from './tasks.json';
+import tasksData from '../tasks/tasks.json';
 import categoriesData from './categories.json';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

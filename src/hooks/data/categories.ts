@@ -1,5 +1,5 @@
 import {useQuery} from "react-query";
-import {getCategories} from "@/services/endpoints/tasks";
+import {getCategories} from "@/services/endpoints/categories";
 
 export function useCategories() {
   return useQuery(['categories'], () => getCategories(), {

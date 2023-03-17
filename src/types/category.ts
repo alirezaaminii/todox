@@ -1,6 +1,6 @@
 import TaskInterface from "@/types/task";
 
-interface CategoryInterface {
+export interface CategoryInterface {
   name: string;
   id: number;
   tasks: TaskInterface[];
