@@ -2,8 +2,8 @@ import {NextApiRequest, NextApiResponse} from 'next';
 import fs from 'fs';
 import path from 'path';
 import {TaskInterface} from "@/types";
-import createCategory from "@/pages/api/categories/create";
 import {extractFileData} from "@/utils/extract-file-data";
+import {getAPIBaseURL} from "@/utils/env";
 
 function getNextTaskId(tasks: TaskInterface[]) {
   const maxId = tasks.reduce((max, task) => {
@@ -14,15 +14,20 @@ function getNextTaskId(tasks: TaskInterface[]) {
 
 export const tasksFilePath = path.join(process.cwd(), 'src/pages/api/tasks/tasks.json');
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'POST') {
       let {name, categoryId} = req.body;
       const currentTasksData = extractFileData(tasksFilePath, {tasks: []})
       const newTaskId = getNextTaskId(currentTasksData.tasks);
       if (!categoryId) {
-        const newCategory = createCategory("Unknown")
-        categoryId = newCategory.id
+        const response = await fetch(`${getAPIBaseURL()}categories/create`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"}
+        })
+        const data = await response.json();
+        console.log(data);
+        categoryId = data.id;
       }
       const task: TaskInterface = {id: newTaskId, createdAt: Date.now(), name, categoryId, status: 'pending'};
 

@@ -2,6 +2,7 @@ import fs from "fs";
 import {CategoryInterface} from "@/types";
 import {extractFileData} from "@/utils/extract-file-data";
 import {categoriesFilePath} from "@/pages/api/categories/index";
+import {NextApiRequest, NextApiResponse} from "next";
 
 function getNextCategoryId(categories: CategoryInterface[]) {
   const maxId = categories.reduce((max, category) => {
@@ -10,9 +11,20 @@ function getNextCategoryId(categories: CategoryInterface[]) {
   return maxId + 1;
 }
 
-export default function createCategory(categoryName: string) {
+export default function createCategory(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    res.status(405).json({ message: "Method not allowed" });
+    return;
+  }
+
+  const { categoryName = 'Unknown' } = req.body;
+
   if (!categoryName) {
-    throw ({message: "Category name is required"});
+    res.status(400).json({ message: "Category name is required" });
+    return;
   }
 
   try {
@@ -29,9 +41,8 @@ export default function createCategory(categoryName: string) {
     categoriesData.categories.push(newCategory);
     fs.writeFileSync(categoriesFilePath, JSON.stringify(categoriesData));
 
-    return newCategory
+    res.status(201).json(newCategory);
   } catch (error) {
-    console.log(error);
-    throw ({message: "Error creating category and task"});
+    res.status(500).json({message: "Error creating category and task"});
   }
 }
