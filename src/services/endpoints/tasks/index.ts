@@ -1,10 +1,10 @@
 import {NetworkService} from "@/services/http";
-import {TaskInterface} from "@/types";
+import {CategoryInterface} from "@/types";
 
-export const getTasks = () =>
-  NetworkService.request<null, null, TaskInterface[]>({
+export const getCategories = () =>
+  NetworkService.request<null, null, CategoryInterface[]>({
     config: {
       method: 'GET',
-      url: `tasks`,
+      url: `categories`,
     },
   });

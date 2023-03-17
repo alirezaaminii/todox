@@ -5,12 +5,12 @@ import categoriesData from './categories.json';
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     // Join tasks and categories data on categoryId and id properties
-    const tasksWithCategories = tasksData.tasks.map((task) => {
-      const category = categoriesData.categories.find((category) => category.id === task.categoryId);
-      return { ...task, category };
+    const categoriesWithTasks = categoriesData.categories.map((category) => {
+      const tasks = tasksData.tasks.filter((task) => task.categoryId === category.id);
+      return { tasks, ...category };
     });
 
-    res.status(200).json(tasksWithCategories);
+    res.status(200).json(categoriesWithTasks);
   } else {
     res.status(405).end();
   }
