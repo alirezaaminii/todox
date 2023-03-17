@@ -17,7 +17,8 @@ export const Category: React.FunctionComponent<Props> = (props) => {
   const updateTask = useUpdateTask();
   const createTask = useCreateTask();
   const [isOpen, setIsOpenActions] = useBoolean(false);
-  const havePendingTasks = props.tasks.some(task => task.status === 'pending');
+  const tasksLength = props.tasks.length;
+  const isAllDone = tasksLength > 0 && !props.tasks.some(task => task.status === 'pending');
 
   const handleUpdateTask = (task: TaskInterface) => {
     updateTask.mutateAsync(task).then(() => {
@@ -31,7 +32,7 @@ export const Category: React.FunctionComponent<Props> = (props) => {
     })
   }
   return (
-    <CategoryStyles isOpen={isOpen} isAllDone={!havePendingTasks}>
+    <CategoryStyles isOpen={isOpen} isAllDone={isAllDone}>
       <div className="category-details" onClick={setIsOpenActions.toggle}>
         <div className="column">
           <div className="category-details--icon"><FolderIcon/></div>
@@ -42,7 +43,7 @@ export const Category: React.FunctionComponent<Props> = (props) => {
             <div/>
           </div>
           <AngleDownIcon className="category-details--angle"/>
-          <div className="category-details--task-number"><p>{props.tasks.length}</p></div>
+          <div className="category-details--task-number"><p>{tasksLength}</p></div>
           <div className="category-details--options"></div>
         </div>
       </div>

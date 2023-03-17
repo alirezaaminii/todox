@@ -5,6 +5,7 @@ import TextArea from "@/components/textarea";
 
 interface Props {
   onChange: (taskName: string) => void;
+  hideCheckbox?: boolean;
 }
 
 export const NewTask: React.FunctionComponent<Props> = (props) => {
@@ -13,7 +14,7 @@ export const NewTask: React.FunctionComponent<Props> = (props) => {
   }
   return (
     <TaskStyles status='pending'>
-      <Checkbox disabled name="New Task"/>
+      {props.hideCheckbox ? null : <Checkbox disabled name="New Task"/>}
       <TextArea placeholder="Write a task..." onSubmit={handleChangeTask} resetFieldAfterSubmit />
     </TaskStyles>
   )

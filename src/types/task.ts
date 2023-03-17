@@ -8,6 +8,9 @@ export interface TaskInterface {
 
 export type TaskStatus = 'pending' | 'done';
 
-export interface CreateTask extends Pick<TaskInterface, 'name' | 'categoryId'> {}
+export interface CreateTask {
+  name: string;
+  categoryId?: number;
+}
 
 export default TaskInterface

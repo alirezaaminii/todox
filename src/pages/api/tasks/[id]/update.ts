@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
-import path from 'path';
 import {TaskInterface} from "@/types";
+import {extractFileData} from "@/utils/extract-file-data";
+import {tasksFilePath} from "@/pages/api/tasks/create";
 
 type TasksData = {
   tasks: TaskInterface[];
@@ -11,11 +12,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PUT') {
     const { id } = req.query;
     const { name, status, categoryId } = req.body;
-    const filePath = path.join(process.cwd(), 'src/pages/api/tasks/tasks.json');
 
-    const currentTasksData: TasksData = fs.existsSync(filePath)
-      ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-      : { tasks: [] };
+    const currentTasksData: TasksData = extractFileData(tasksFilePath, {tasks: []});
 
     const taskToUpdate = currentTasksData.tasks.find(
       (task) => task.id === Number(id)
@@ -39,7 +37,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     });
 
     const updatedTasksData = { tasks: updatedTasks };
-    fs.writeFileSync(filePath, JSON.stringify(updatedTasksData));
+    fs.writeFileSync(tasksFilePath, JSON.stringify(updatedTasksData));
 
     res.status(200).json(updatedTasksData);
   } else {
