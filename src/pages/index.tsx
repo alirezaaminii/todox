@@ -6,11 +6,6 @@ import {Loading} from "@/components/loading";
 
 export default function Home() {
   const {data, isLoading} = useCategories();
-  // const queryClient = useQueryClient();
-  // const createTask = useCreateTask();
-  // createTask.mutateAsync({name:'newTask', categoryId: 1}).then(() => {
-  //       queryClient.invalidateQueries({queryKey: [`categories`],});
-  //     }).catch((e) => console.log(e))
   return (
     <>
       <Head>

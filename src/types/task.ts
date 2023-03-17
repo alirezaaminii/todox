@@ -2,7 +2,7 @@ export interface TaskInterface {
   id: number;
   name: string;
   createdAt: number;
-  status: string;
+  status: TaskStatus;
   categoryId: number;
 }
 

@@ -3,4 +3,5 @@ export const colors = {
   secondary: '#B5B5BA',
   stroke: '#BCBCC344',
   white: '#ffffff',
+  success: '#7BA05B',
 }

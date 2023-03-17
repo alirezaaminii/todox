@@ -3,6 +3,7 @@ import {colors} from "@/styles/colors";
 
 interface Props {
   isOpen?: boolean;
+  isAllDone: boolean;
 }
 
 export const CategoryStyles = styled.div<Props>`
@@ -59,7 +60,7 @@ export const CategoryStyles = styled.div<Props>`
       width: 20px;
       height: 20px;
       border-radius: 6px;
-      background: ${colors.primary};
+      background: ${(props: Props) => props.isAllDone ? colors.success : colors.primary};
       color: ${colors.white};
       display: flex;
       align-items: center;

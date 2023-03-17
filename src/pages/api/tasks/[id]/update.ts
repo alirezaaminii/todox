@@ -11,7 +11,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PUT') {
     const { id } = req.query;
     const { name, status, categoryId } = req.body;
-    const filePath = path.join(process.cwd(), 'tasks.json');
+    const filePath = path.join(process.cwd(), 'src/pages/api/tasks/tasks.json');
 
     const currentTasksData: TasksData = fs.existsSync(filePath)
       ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
