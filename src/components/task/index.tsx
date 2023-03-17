@@ -3,7 +3,7 @@ import {TaskInterface} from "@/types";
 import {TaskStyles} from "@/components/task/style";
 import Checkbox from "@/components/checkbox";
 import {useBoolean} from "@/hooks/useBoolean";
-import Input from "@/components/input";
+import TextArea from "@/components/textarea";
 
 interface Props extends TaskInterface {
   onChange: (task: TaskInterface) => void;
@@ -22,7 +22,7 @@ export const Task: React.FunctionComponent<Props> = (props) => {
   return (
     <TaskStyles status={props.status}>
       <Checkbox onChange={handleToggleTask} name={props.id.toString()} checked={isChecked}/>
-      <Input type="text" placeholder="Write a task..." onSubmit={handleChangeTask} taskName={props.name} />
+      <TextArea placeholder="Write the task name..." onSubmit={handleChangeTask} taskName={props.name} />
     </TaskStyles>
   )
 }

@@ -1,43 +1,31 @@
 import * as React from 'react';
 import {LoadingStyle} from './style';
-import {ReactNode} from "react";
 
-interface Props {
-  spinning: boolean;
-  children: ReactNode;
-}
-
-export const Loading = (props: Props) => {
+export const Loading = () => {
   return (
     <LoadingStyle>
-      <div className="children">
-        {props.children}
+      <div className="container">
+        <div className="dot dot-1"></div>
+        <div className="dot dot-2"></div>
+        <div className="dot dot-3"></div>
       </div>
-      {props.spinning ? <>
-        <div className="container">
-          <div className="dot dot-1"></div>
-          <div className="dot dot-2"></div>
-          <div className="dot dot-3"></div>
-        </div>
-
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-          <defs>
-            <filter id="goo">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="10"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
-              />
-            </filter>
-          </defs>
-        </svg>
-        <div className="overlay" />
-      </> : null}
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="10"
+              result="blur"
+            />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
+            />
+          </filter>
+        </defs>
+      </svg>
+      <div className="overlay" />
     </LoadingStyle>
   );
 };

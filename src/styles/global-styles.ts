@@ -14,6 +14,10 @@ const GlobalStyles = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+  
+  #__next {
+    width: 100%;
+  }
 
   body {
     margin: 0;
@@ -21,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
     place-items: center;
     justify-content: center;
     min-width: 320px;
+    width: 100%;
     min-height: 100vh;
   }
 `;

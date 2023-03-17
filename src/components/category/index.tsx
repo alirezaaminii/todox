@@ -4,8 +4,9 @@ import {useBoolean} from "@/hooks/useBoolean";
 import {CategoryStyles} from "@/components/category/style";
 import {AngleDownIcon, FolderIcon} from "@/components/icons";
 import Task from "@/components/task";
-import {useUpdateTask} from "@/hooks/data/tasks";
+import {useCreateTask, useUpdateTask} from "@/hooks/data/tasks";
 import {useQueryClient} from "react-query";
+import NewTask from "@/components/new-task";
 
 interface Props extends CategoryInterface {
   tasks: TaskInterface[];
@@ -14,11 +15,18 @@ interface Props extends CategoryInterface {
 export const Category: React.FunctionComponent<Props> = (props) => {
   const queryClient = useQueryClient();
   const updateTask = useUpdateTask();
+  const createTask = useCreateTask();
   const [isOpen, setIsOpenActions] = useBoolean(false);
   const havePendingTasks = props.tasks.some(task => task.status === 'pending');
 
   const handleUpdateTask = (task: TaskInterface) => {
     updateTask.mutateAsync(task).then(() => {
+      queryClient.invalidateQueries({queryKey: ['categories'],});
+    })
+  }
+
+  const handleCreateTask = (taskName: string) => {
+    createTask.mutateAsync({name: taskName, categoryId: props.id}).then(() => {
       queryClient.invalidateQueries({queryKey: ['categories'],});
     })
   }
@@ -41,9 +49,12 @@ export const Category: React.FunctionComponent<Props> = (props) => {
 
       {
         isOpen && (
-          <div className="category-tasks">
-            {props.tasks.map((task) => <Task onChange={handleUpdateTask} key={task.id} {...task}/>)}
-          </div>
+          <>
+            <div className="category-tasks">
+              {props.tasks.map((task) => <Task onChange={handleUpdateTask} key={task.id} {...task}/>)}
+            </div>
+            <NewTask onChange={handleCreateTask} />
+          </>
         )
       }
     </CategoryStyles>

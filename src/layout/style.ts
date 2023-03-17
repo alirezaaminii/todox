@@ -10,6 +10,12 @@ export const LayoutContainer = styled.div`
   padding: 48px 32px 24px;
   background: ${colors.white};
   box-shadow: 0 0 30px rgba(29, 40, 58, 0.15);
+  margin: 0 auto;
+  transition: all 200ms;
+  
+  @media screen and (max-width: 500px) {
+    height: 100vh;
+  }
 
   &::-webkit-scrollbar {
     border-radius: 4px;

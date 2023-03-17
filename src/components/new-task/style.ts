@@ -27,17 +27,15 @@ export const TaskStyles = styled.div<Props>`
       text-decoration-line: ${(props: Props) => props.status === "pending" ? 'unset' : 'line-through'};
 
       &:focus ~ .task-submit-button {
-        cursor: pointer;
-        opacity: 1;
+        display: flex;
+        align-items: center;
       }
     }
 
     .task-submit-button {
       all: unset;
-      display: flex;
-      align-items: center;
-      opacity: 0;
-      cursor: unset;
+      display: none;
+      cursor: pointer;
     }
   }
 `;

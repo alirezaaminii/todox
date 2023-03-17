@@ -1,22 +1,23 @@
 import React, {useState} from 'react';
 
 type CheckboxProps = {
-  checked: boolean;
+  disabled?: boolean;
+  checked?: boolean;
   name: string;
-  onChange: (checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
 };
 
-const Checkbox = ({checked, onChange, name}: CheckboxProps) => {
+const Checkbox = ({checked, onChange, name, disabled}: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(checked);
 
   const handleChange = () => {
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
-    onChange(newCheckedState);
+    onChange?.(newCheckedState);
   };
 
   return (
-    <input type="checkbox" name={name} checked={isChecked} onChange={handleChange}/>
+    <input disabled={disabled} type="checkbox" name={name} checked={isChecked} onChange={handleChange}/>
   );
 };
 
