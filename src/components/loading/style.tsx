@@ -20,32 +20,46 @@ export const LoadingStyle = styled.div`
     filter: url('#goo');
     animation: rotate-move 2s ease-in-out infinite;
   }
+  
+  .overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: ${colors.white + 80};
+  }
+  
+  .children {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 
   .dot {
     width: 32px;
     max-height: 32px;
     border-radius: 50%;
-    background-color: #000;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
+    background-color: ${colors.primary};
   }
 
   .dot-3 {
-    background-color: ${colors.primary};
     animation: dot-3-move 2s ease infinite, index 6s ease infinite;
   }
 
   .dot-2 {
-    background-color: ${colors.secondary};
     animation: dot-2-move 2s ease infinite, index 6s -4s ease infinite;
   }
 
   .dot-1 {
-    background-color: ${colors.stroke};
     animation: dot-1-move 2s ease infinite, index 6s -2s ease infinite;
   }
 
