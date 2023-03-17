@@ -24,7 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       {isLoading ? <Loading/> : null}
-      {data?.map((category) => <Category {...category} key={category.id}/>)}
+      {data?.map((category) => <Category {...category} key={category.id} isOpen={data.length === 1}/>)}
       {!isLoading && data?.length === 0
         ? <NewTask onChange={handleCreateTask} hideCheckbox/>
         : null

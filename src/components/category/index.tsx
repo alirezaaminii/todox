@@ -10,13 +10,14 @@ import NewTask from "@/components/new-task";
 
 interface Props extends CategoryInterface {
   tasks: TaskInterface[];
+  isOpen?: boolean;
 }
 
 export const Category: React.FunctionComponent<Props> = (props) => {
   const queryClient = useQueryClient();
   const updateTask = useUpdateTask();
   const createTask = useCreateTask();
-  const [isOpen, setIsOpenActions] = useBoolean(false);
+  const [isOpen, setIsOpenActions] = useBoolean(props.isOpen);
   const tasksLength = props.tasks.length;
   const isAllDone = tasksLength > 0 && !props.tasks.some(task => task.status === 'pending');
 
