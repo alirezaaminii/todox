@@ -6,7 +6,13 @@ import {Layout} from "@/layout";
 import GlobalStyles from "@/styles/global-styles";
 
 export default function App({Component, pageProps}: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      }
+    }
+  }));
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyles/>

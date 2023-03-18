@@ -11,7 +11,7 @@ import Button from "@/components/button";
 import Link from "next/link";
 
 export default function Home() {
-  const {data, isLoading} = useCategories();
+  const {data, isLoading, isRefetching} = useCategories();
   const queryClient = useQueryClient();
   const createTask = useCreateTask();
   const createCategory = useCreateCategory();
@@ -33,7 +33,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <TasksContainer>
-        {isLoading ? <Loading/> : null}
+        {isLoading || isRefetching ? <Loading/> : null}
         {
           hasData
             ? (

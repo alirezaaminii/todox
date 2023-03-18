@@ -1,44 +1,51 @@
-import {NextApiRequest, NextApiResponse} from 'next';
-import fs from 'fs';
-import {CategoryInterface} from "@/types";
-import {extractFileData} from "@/utils/extract-file-data";
-import {categoriesFilePath} from "@/pages/api/categories";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { CategoryInterface } from '@/types';
+import { connectToDatabase } from '@/utils/db';
 
-type CategoriesData = {
-  categories: CategoryInterface[];
-};
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    if (req.method === 'PUT') {
+      const { id } = req.query;
+      const { name } = req.body;
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'PUT') {
-    const {id} = req.query;
-    const {name} = req.body;
-
-    const currentCategoriesData: CategoriesData = extractFileData(categoriesFilePath, {categories: []});
-
-    const categoryToUpdate = currentCategoriesData.categories.find(
-      (category) => category.id === Number(id)
-    );
-
-    if (!categoryToUpdate) {
-      res.status(404).end();
-      return;
-    }
-
-    const updatedCategories = currentCategoriesData.categories.map((category) => {
-      if (category.id === Number(id)) {
-        return {
-          ...category,
-          name: name || category.name,
-        };
+      if (!id || !name) {
+        res.status(400).end();
+        return;
       }
-      return category;
-    });
 
-    const updatedCategoriesData = {categories: updatedCategories};
-    fs.writeFileSync(categoriesFilePath, JSON.stringify(updatedCategoriesData));
+      const db = await connectToDatabase();
+      const categoriesCollection = db.collection<CategoryInterface>('categories');
 
-    res.status(200).json(updatedCategoriesData);
-  } else {
-    res.status(405).end();
+      const categoryToUpdate = await categoriesCollection.findOne({
+        id: Number(id),
+      });
+
+      if (!categoryToUpdate) {
+        res.status(404).end();
+        return;
+      }
+
+      const updatedCategory = {
+        ...categoryToUpdate,
+        name,
+      };
+
+      const result = await categoriesCollection.updateOne(
+        { id: Number(id) },
+        { $set: updatedCategory }
+      );
+
+      if (result.modifiedCount === 0) {
+        res.status(500).end();
+        return;
+      }
+
+      res.status(200).json(updatedCategory);
+    } else {
+      res.status(405).end();
+    }
+  }
+  catch (e) {
+    res.status(500).json({ message: "Error updating category and task" });
   }
 }

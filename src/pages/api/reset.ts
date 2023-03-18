@@ -1,12 +1,11 @@
-import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import {tasksFilePath} from "@/pages/api/tasks/create";
-import {categoriesFilePath} from "@/pages/api/categories";
+import { connectToDatabase } from '@/utils/db';
 
-export default function deleteData(req: NextApiRequest, res: NextApiResponse) {
+export default async function deleteData(req: NextApiRequest, res: NextApiResponse) {
   try {
-    fs.writeFileSync(categoriesFilePath, JSON.stringify({ categories: [] }));
-    fs.writeFileSync(tasksFilePath, JSON.stringify({ tasks: [] }));
+    const db = await connectToDatabase();
+    await db.collection('categories').deleteMany({});
+    await db.collection('tasks').deleteMany({});
     res.status(200).json({ message: 'Data deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
