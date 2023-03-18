@@ -15,6 +15,7 @@ export const LayoutContainer = styled.div`
 
   @media screen and (max-width: 500px) {
     height: 100vh;
+    padding: 48px 32px 64px;
   }
 
   &:before {
