@@ -60,7 +60,6 @@ export const Category: React.FunctionComponent<Props> = (props) => {
       disabled: getPendingTasksIds.length === 0
     },
   ]
-
   return (
     <CategoryStyles isOpen={isOpen} isAllDone={isAllDone}>
       <div className="category-details" onClick={setIsOpenActions.toggle}>

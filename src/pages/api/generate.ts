@@ -40,9 +40,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       temperature: 0.6,
     });
 
+    const collection = db.collection(CATEGORIES_COLLECTION_NAME);
+
+    const nextCategoryId = await collection.countDocuments({}) + 1;
+
     const categories = splitItems(completion.data.choices[0].text ?? '');
-    const categoryDocs = categories.map((categoryName) => ({
-      name: capitalize(categoryName)
+    const categoryDocs = categories.map((categoryName,index) => ({
+      name: capitalize(categoryName),
+      id: nextCategoryId + index
     }));
 
     const result = await db.collection(CATEGORIES_COLLECTION_NAME).insertMany(categoryDocs);
