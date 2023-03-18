@@ -5,6 +5,10 @@ A simple todo application built with Next.js, React and MongoDB.
 ## Live Demo
 Check out the [live demo](https://todox-test.vercel.app/) of the application.
 
+## Deleting data
+
+In this version, all existing data in the database is visible to everyone. If you wish to delete all the data and start over, simply append the following endpoint to the base URL: api/reset.
+
 ## Todos
 
 There are a couple of things that can be improved in this application:
