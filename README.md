@@ -1,4 +1,22 @@
+
+## TodoX
+A simple todo application built with Next.js, React and MongoDB.
+
+## Live Demo
+Check out the [live demo](https://todox-test.vercel.app/) of the application.
+
+## Todos
+
+There are a couple of things that can be improved in this application:
+
+1. Using Mongoose or creating your own models is better than touching the database every time!
+2. Configuring client error handling and showing a proper toast message to user.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Technical Details
+This is a Next.js project bootstrapped with create-next-app.
+
 
 ## Getting Started
 
