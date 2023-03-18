@@ -9,7 +9,11 @@ export default function App({Component, pageProps}: AppProps) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
+        staleTime: 0,
+        cacheTime: Infinity,
+        refetchOnWindowFocus: false,
         retry: false,
+        useErrorBoundary: false,
       }
     }
   }));
