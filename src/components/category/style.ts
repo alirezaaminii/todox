@@ -7,7 +7,8 @@ interface Props {
 }
 
 export const CategoryStyles = styled.div<Props>`
-  margin-top: 18px;
+  margin: 18px auto 0;
+  width: 98%;
   
   .category-details {
     display: flex;
@@ -73,6 +74,14 @@ export const CategoryStyles = styled.div<Props>`
         line-height: 14px;
       }
     }
-    &--options {}
+    &--options {
+      transform: rotate(90deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 16px;
+      height: 16px;
+    }
   }
 `;

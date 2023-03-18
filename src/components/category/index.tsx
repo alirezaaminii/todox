@@ -2,11 +2,12 @@ import React from "react";
 import {CategoryInterface, TaskInterface} from "@/types";
 import {useBoolean} from "@/hooks/useBoolean";
 import {CategoryStyles} from "@/components/category/style";
-import {AngleDownIcon, FolderIcon} from "@/components/icons";
+import {AngleDownIcon, FolderIcon, OptionsIcon} from "@/components/icons";
 import Task from "@/components/task";
 import {useCreateTask, useDeleteTasks, useUpdateTask} from "@/hooks/data/tasks";
 import {useQueryClient} from "react-query";
-import NewTask from "@/components/new-task";
+import NewTask from "@/components/new-task"
+import DropDown from "@/components/dropdown";
 
 interface Props extends CategoryInterface {
   tasks: TaskInterface[];
@@ -39,6 +40,16 @@ export const Category: React.FunctionComponent<Props> = (props) => {
       queryClient.invalidateQueries({queryKey: ['categories'],});
     })
   }
+
+  const getPendingTasksIds: number[] = props.tasks.filter(task => task.status === 'pending').map(task => task.id);
+
+  const dropDownOptions = [
+    {
+      label: 'Delete Pending Tasks',
+      onClick: () => handleDeleteTasks(getPendingTasksIds)
+    },
+  ]
+
   return (
     <CategoryStyles isOpen={isOpen} isAllDone={isAllDone}>
       <div className="category-details" onClick={setIsOpenActions.toggle}>
@@ -52,7 +63,9 @@ export const Category: React.FunctionComponent<Props> = (props) => {
           </div>
           <AngleDownIcon className="category-details--angle"/>
           <div className="category-details--task-number"><p>{tasksLength}</p></div>
-          <div className="category-details--options"></div>
+          <div className="category-details--options">
+            <DropDown trigger={<OptionsIcon />} options={dropDownOptions}/>
+          </div>
         </div>
       </div>
 
