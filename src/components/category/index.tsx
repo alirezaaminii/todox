@@ -33,7 +33,7 @@ export const Category: React.FunctionComponent<Props> = (props) => {
     (value) => {
       updateCategory.mutateAsync({...props, name: value}).then(invalidateCategories);
     },
-    1000
+    500
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ export const Category: React.FunctionComponent<Props> = (props) => {
     {
       label: 'Delete Pending Tasks',
       onClick: () => handleDeleteTasks(getPendingTasksIds),
-      disabled: props.tasks.length === 0
+      disabled: getPendingTasksIds.length === 0
     },
   ]
 
