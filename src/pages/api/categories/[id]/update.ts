@@ -34,7 +34,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return category;
     });
 
-    const updatedCategoriesData = {tasks: updatedCategories};
+    const updatedCategoriesData = {categories: updatedCategories};
     fs.writeFileSync(categoriesFilePath, JSON.stringify(updatedCategoriesData));
 
     res.status(200).json(updatedCategoriesData);

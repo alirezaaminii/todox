@@ -33,24 +33,24 @@ export const CategoryStyles = styled.div<Props>`
 
     &--icon {}
     &--name {
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 18px;
-      display: flex;
-      align-items: center;
-      user-select: none;
+      input {
+        all: unset;
+        border: 0;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        user-select: none;
+        width: 250px;
 
-      color: ${colors.primary};
-    }
-    &--bar {
-      display: flex;
-      align-items: center;
-      flex: 1;
-      div {
-        width: calc(100% - 6px);
-        margin: 0 auto;
-        border: 1px solid ${colors.stroke};
+        color: ${colors.primary};
+
+        &:focus {
+          outline: 0;
+          border-bottom: 1px solid ${colors.primary};
+        }
       }
     }
     &--angle {

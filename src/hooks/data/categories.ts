@@ -1,6 +1,6 @@
 import {useMutation, useQuery} from "react-query";
-import {createCategory, getCategories} from "@/services/endpoints/categories";
-import {CreateCategory} from "@/types";
+import {createCategory, getCategories, updateCategory} from "@/services/endpoints/categories";
+import {CategoryInterface, CreateCategory} from "@/types";
 
 export function useCategories() {
   return useQuery(['categories'], () => getCategories(), {
@@ -9,4 +9,8 @@ export function useCategories() {
 }
 export function useCreateCategory() {
   return useMutation([], (newCategory: CreateCategory) => createCategory(newCategory));
+}
+
+export function useUpdateCategory() {
+  return useMutation([], (category: CategoryInterface) => updateCategory(category));
 }

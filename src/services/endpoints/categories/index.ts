@@ -17,3 +17,12 @@ export const createCategory = (newCategory: CreateCategory) =>
       data: newCategory
     },
   });
+
+export const updateCategory = (category: CategoryInterface) =>
+  NetworkService.request<null, CategoryInterface, null>({
+    config: {
+      method: 'PUT',
+      url: `categories/${category.id}/update`,
+      data: category
+    },
+  });

@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import {useDebouncedCallback} from 'use-debounce';
 import {CategoryInterface, TaskInterface} from "@/types";
 import {useBoolean} from "@/hooks/useBoolean";
 import {CategoryStyles} from "@/components/category/style";
@@ -8,6 +9,7 @@ import {useCreateTask, useDeleteTasks, useUpdateTask} from "@/hooks/data/tasks";
 import {useQueryClient} from "react-query";
 import NewTask from "@/components/new-task"
 import DropDown from "@/components/dropdown";
+import {useUpdateCategory} from "@/hooks/data/categories";
 
 interface Props extends CategoryInterface {
   tasks: TaskInterface[];
@@ -19,20 +21,38 @@ export const Category: React.FunctionComponent<Props> = (props) => {
   const updateTask = useUpdateTask();
   const createTask = useCreateTask();
   const deleteTasks = useDeleteTasks();
+  const updateCategory = useUpdateCategory();
   const [isOpen, setIsOpenActions] = useBoolean(props.isOpen);
   const tasksLength = props.tasks.length;
   const isAllDone = tasksLength > 0 && !props.tasks.some(task => task.status === 'pending');
+  const [categoryName, setCategoryName] = useState(props.name ?? '');
+
+  const invalidateCategories = () => {
+    queryClient.invalidateQueries({queryKey: ['categories'],});
+  }
+
+  const debounced = useDebouncedCallback(
+    (value) => {
+      updateCategory.mutateAsync({...props, name: value}).then(invalidateCategories);
+    },
+    1000
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryName(e.target.value);
+    debounced(e.target.value);
+  };
+
+  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+  }
 
   const handleUpdateTask = (task: TaskInterface) => {
-    updateTask.mutateAsync(task).then(() => {
-      queryClient.invalidateQueries({queryKey: ['categories'],});
-    })
+    updateTask.mutateAsync(task).then(invalidateCategories)
   }
 
   const handleCreateTask = (taskName: string) => {
-    createTask.mutateAsync({name: taskName, categoryId: props.id}).then(() => {
-      queryClient.invalidateQueries({queryKey: ['categories'],});
-    })
+    createTask.mutateAsync({name: taskName, categoryId: props.id}).then(invalidateCategories)
   }
 
   const handleDeleteTasks = (taskIds: number[]) => {
@@ -55,16 +75,23 @@ export const Category: React.FunctionComponent<Props> = (props) => {
       <div className="category-details" onClick={setIsOpenActions.toggle}>
         <div className="column">
           <div className="category-details--icon"><FolderIcon/></div>
-          <div className="category-details--name">{props.name}</div>
+          <div className="category-details--name">
+            <input
+              type="text"
+              name={`category_name_${props.id}`}
+              value={categoryName}
+              onFocus={handleInputFocus}
+              onClick={handleInputFocus}
+              onChange={handleInputChange}
+              maxLength={30}
+            />
+          </div>
         </div>
         <div className="column right-column">
-          <div className="category-details--bar">
-            <div/>
-          </div>
           <AngleDownIcon className="category-details--angle"/>
           <div className="category-details--task-number"><p>{tasksLength}</p></div>
           <div className="category-details--options">
-            <DropDown trigger={<OptionsIcon />} options={dropDownOptions}/>
+            <DropDown trigger={<OptionsIcon/>} options={dropDownOptions}/>
           </div>
         </div>
       </div>
