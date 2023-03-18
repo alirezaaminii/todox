@@ -68,6 +68,10 @@ export const TasksContainer = styled.div`
     flex-direction: row-reverse;
     margin-top: 12px;
     padding: 12px 32px;
+
+    @media screen and (max-width: 500px) {
+      padding: 12px;
+    }
   }
 `;
 
