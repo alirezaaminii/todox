@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React, {useState} from "react";
 import {useGenerateCategories} from "@/hooks/data/categories";
-import {GenerateCategoriesFormStyles, TasksContainer} from "@/layout/style";
+import {GenerateCategoriesFormStyles, GenerateCategoriesInnerContainer, TasksContainer} from "@/layout/style";
 import Button from "@/components/button";
 import {Loading} from "@/components/loading";
 import {useRouter} from "next/router";
@@ -38,22 +38,24 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
-      <TasksContainer>
-        {generateCategories.isLoading ? <Loading/> : null}
-        <GenerateCategoriesFormStyles onSubmit={handleSubmit}>
-          <p>
-            Describe your daily duties, we will take care of the category creation.
-          </p>
-          <input
-            placeholder="Ask ChatGPT to create your categories"
-            value={formValues.description}
-            name="description"
-            onChange={handleInputChange}/>
+      <GenerateCategoriesFormStyles onSubmit={handleSubmit} style={{height: '100%'}}>
+        <TasksContainer>
+          {generateCategories.isLoading ? <Loading/> : null}
+          <GenerateCategoriesInnerContainer>
+            <p>
+              Describe your daily duties, we will take care of the category creation.
+            </p>
+            <input
+              placeholder="Ask ChatGPT to create your categories"
+              value={formValues.description}
+              name="description"
+              onChange={handleInputChange}/>
+          </GenerateCategoriesInnerContainer>
           <div className="actions">
             <Button type="submit" variant="gpt" disabled={generateCategories.isLoading}>Generate Categories</Button>
           </div>
-        </GenerateCategoriesFormStyles>
-      </TasksContainer>
+        </TasksContainer>
+      </GenerateCategoriesFormStyles>
     </>
   )
 }

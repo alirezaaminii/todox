@@ -75,8 +75,12 @@ export const TasksContainer = styled.div`
   }
 `;
 
-
 export const GenerateCategoriesFormStyles = styled.form`
+  height: 100%;
+`;
+
+
+export const GenerateCategoriesInnerContainer = styled.div`
   p {
     color: ${colors.primary};
     font-size: 14px;
