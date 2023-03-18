@@ -79,9 +79,9 @@ export const TasksContainer = styled.div`
 export const GenerateCategoriesFormStyles = styled.form`
   p {
     color: ${colors.primary};
-    font-size: 16px;
-    line-height: 18px;
-    width: calc(100% - 32px);
+    font-size: 14px;
+    line-height: 14px;
+    width: calc(100% - 24px);
     margin: 0 auto;
   }
 
@@ -91,7 +91,7 @@ export const GenerateCategoriesFormStyles = styled.form`
     color: ${colors.primary};
     border-radius: 8px;
     margin: 12px auto;
-    padding: 4px;
+    padding: 4px 8px;
     width: calc(100% - 32px);
     height: 32px;
     display: block;
