@@ -24,6 +24,7 @@ export default function Home() {
       queryClient.invalidateQueries({queryKey: ['categories'],});
     })
   }
+  const hasData = data && data?.length > 0
   return (
     <>
       <Head>
@@ -33,21 +34,28 @@ export default function Home() {
       </Head>
       <TasksContainer>
         {isLoading ? <Loading/> : null}
-        <div className="categories">
-          {data?.map((category) =>
-            <Category
-              {...category}
-              key={category.id}
-              isOpen={data.length === 1 || category.name === 'New Category'}
-            />
-          )}
-        </div>
-        <div className="create-task">
-          {!isLoading && data?.length === 0
-            ? <NewTask onChange={handleCreateTask} hideCheckbox/>
+        {
+          hasData
+            ? (
+              <div className="categories">
+                {data.map((category) =>
+                  <Category
+                    {...category}
+                    key={category.id}
+                    isOpen={data.length === 1 || category.name === 'New Category'}
+                  />
+                )}
+              </div>
+            )
             : null
-          }
-        </div>
+        }
+
+        {!isLoading && data?.length === 0
+          ? <div className="create-task">
+            <NewTask onChange={handleCreateTask} hideCheckbox/>
+          </div>
+          : null
+        }
         <div className="actions">
           <Button variant="primary" onClick={handleCreateCategory}>Create a Category</Button>
         </div>

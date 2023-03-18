@@ -66,7 +66,8 @@ export const Category: React.FunctionComponent<Props> = (props) => {
   const dropDownOptions = [
     {
       label: 'Delete Pending Tasks',
-      onClick: () => handleDeleteTasks(getPendingTasksIds)
+      onClick: () => handleDeleteTasks(getPendingTasksIds),
+      disabled: props.tasks.length === 0
     },
   ]
 
