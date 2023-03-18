@@ -4,7 +4,7 @@ import {useBoolean} from "@/hooks/useBoolean";
 import {CategoryStyles} from "@/components/category/style";
 import {AngleDownIcon, FolderIcon} from "@/components/icons";
 import Task from "@/components/task";
-import {useCreateTask, useUpdateTask} from "@/hooks/data/tasks";
+import {useCreateTask, useDeleteTasks, useUpdateTask} from "@/hooks/data/tasks";
 import {useQueryClient} from "react-query";
 import NewTask from "@/components/new-task";
 
@@ -17,6 +17,7 @@ export const Category: React.FunctionComponent<Props> = (props) => {
   const queryClient = useQueryClient();
   const updateTask = useUpdateTask();
   const createTask = useCreateTask();
+  const deleteTasks = useDeleteTasks();
   const [isOpen, setIsOpenActions] = useBoolean(props.isOpen);
   const tasksLength = props.tasks.length;
   const isAllDone = tasksLength > 0 && !props.tasks.some(task => task.status === 'pending');
@@ -29,6 +30,12 @@ export const Category: React.FunctionComponent<Props> = (props) => {
 
   const handleCreateTask = (taskName: string) => {
     createTask.mutateAsync({name: taskName, categoryId: props.id}).then(() => {
+      queryClient.invalidateQueries({queryKey: ['categories'],});
+    })
+  }
+
+  const handleDeleteTasks = (taskIds: number[]) => {
+    deleteTasks.mutateAsync(taskIds).then(() => {
       queryClient.invalidateQueries({queryKey: ['categories'],});
     })
   }
@@ -53,9 +60,16 @@ export const Category: React.FunctionComponent<Props> = (props) => {
         isOpen && (
           <>
             <div className="category-tasks">
-              {props.tasks.map((task) => <Task onChange={handleUpdateTask} key={task.id} {...task}/>)}
+              {props.tasks.map((task) =>
+                <Task
+                  onDelete={(taskId) => handleDeleteTasks([taskId])}
+                  onChange={handleUpdateTask}
+                  key={task.id}
+                  {...task}
+                />
+              )}
             </div>
-            <NewTask onChange={handleCreateTask} />
+            <NewTask onChange={handleCreateTask}/>
           </>
         )
       }

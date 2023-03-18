@@ -16,10 +16,21 @@ export const TaskStyles = styled.div<Props>`
     cursor: pointer;
   }
   
+  .delete-icon {
+    display: none;
+    cursor: pointer;
+  }
+  
+  &:hover {
+    .delete-icon {
+      display: block;
+    }
+  }
+  
   .task-name {
     display: flex;
     gap: 4px;
-    flex: 0 0 calc(100% - 32px);
+    flex: 0 0 calc(100% - 62px);
     justify-content: space-between;
     
     .textarea {

@@ -16,19 +16,6 @@ export const LayoutContainer = styled.div`
   @media screen and (max-width: 500px) {
     height: 100vh;
   }
-
-  &::-webkit-scrollbar {
-    border-radius: 4px;
-    width: 4px;
-    background: ${colors.stroke};
-  }
-  &::-webkit-scrollbar-track {
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background: ${colors.secondary};
-  }
   
   &:before {
     content: ' ';
@@ -39,5 +26,45 @@ export const LayoutContainer = styled.div`
     background: ${colors.primary};
     top: -10px;
     left: 0;
+  }
+`;
+
+export const TasksContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  .categories {
+    max-height: calc(100% - 64px);
+    flex: 0 0 calc(100% - 64px);
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      border-radius: 4px;
+      width: 4px;
+      background: ${colors.stroke};
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: ${colors.secondary};
+    }
+  }
+  
+  .create-task {}
+  
+  .actions {
+    flex: 0 0 64px;
+    max-height: 64px;
+    border-top: 1px solid ${colors.secondary};
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
   }
 `;

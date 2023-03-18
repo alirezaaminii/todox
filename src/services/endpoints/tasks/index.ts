@@ -18,3 +18,12 @@ export const updateTask = (task: TaskInterface) =>
       data: task
     },
   });
+
+export const deleteTasks = (ids: number[]) =>
+  NetworkService.request<null, { ids: number[] }, null>({
+    config: {
+      method: 'DELETE',
+      url: `tasks/delete`,
+      data: {ids}
+    },
+  });
