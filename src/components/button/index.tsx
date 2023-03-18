@@ -9,11 +9,13 @@ type ButtonProps = {
   disabled?: boolean;
   className?: string;
   variant: ButtonVariants;
+  type?: 'submit' | 'button'
 }
 
-function Button({ children, onClick, disabled = false, className, variant }: ButtonProps) {
+function Button({ children, onClick, disabled = false, className, variant, type = 'button' }: ButtonProps) {
   return (
     <ButtonStyles
+      type={type}
       variant={variant}
       className={className}
       onClick={onClick}

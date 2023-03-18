@@ -12,11 +12,11 @@ export const LayoutContainer = styled.div`
   box-shadow: 0 0 30px rgba(29, 40, 58, 0.15);
   margin: 0 auto;
   transition: all 200ms;
-  
+
   @media screen and (max-width: 500px) {
     height: 100vh;
   }
-  
+
   &:before {
     content: ' ';
     position: absolute;
@@ -35,7 +35,7 @@ export const TasksContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
   .categories {
     max-height: calc(100% - 64px);
     flex: 0 0 calc(100% - 64px);
@@ -46,17 +46,17 @@ export const TasksContainer = styled.div`
       width: 4px;
       background: ${colors.stroke};
     }
+
     &::-webkit-scrollbar-track {
       border-radius: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
       border-radius: 4px;
       background: ${colors.secondary};
     }
   }
-  
-  .create-task {}
-  
+
   .actions {
     flex: 0 0 64px;
     max-height: 64px;
@@ -65,6 +65,31 @@ export const TasksContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 32px;
+    flex-direction: row-reverse;
+    margin-top: 12px;
+    padding: 12px 32px;
+  }
+`;
+
+
+export const GenerateCategoriesFormStyles = styled.form`
+  p {
+    color: ${colors.primary};
+    font-size: 16px;
+    line-height: 18px;
+    width: calc(100% - 32px);
+    margin: 0 auto;
+  }
+
+  input {
+    all: unset;
+    border: 1px solid ${colors.primary};
+    color: ${colors.primary};
+    border-radius: 8px;
+    margin: 12px auto;
+    padding: 4px;
+    width: calc(100% - 32px);
+    height: 32px;
+    display: block;
   }
 `;

@@ -4,7 +4,9 @@ import {colors} from "@/styles/colors";
 export const LoadingStyle = styled.div`
   width: 100%;
   height: 100%;
-  position: relative;
+  left: 0;
+  top: 0;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;

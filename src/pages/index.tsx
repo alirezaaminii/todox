@@ -1,20 +1,20 @@
 import Head from 'next/head'
 import Category from "@/components/category";
 import React from "react";
-import {useCategories, useCreateCategory, useGenerateCategories} from "@/hooks/data/categories";
+import {useCategories, useCreateCategory} from "@/hooks/data/categories";
 import {Loading} from "@/components/loading";
 import NewTask from "@/components/new-task";
 import {useQueryClient} from "react-query";
 import {useCreateTask} from "@/hooks/data/tasks";
 import {TasksContainer} from "@/layout/style";
 import Button from "@/components/button";
+import Link from "next/link";
 
 export default function Home() {
   const {data, isLoading} = useCategories();
   const queryClient = useQueryClient();
   const createTask = useCreateTask();
   const createCategory = useCreateCategory();
-  const generateCategories = useGenerateCategories();
   const invalidateCategories = () => {
     queryClient.invalidateQueries({queryKey: ['categories'],});
   }
@@ -23,10 +23,6 @@ export default function Home() {
   }
   const handleCreateCategory = () => {
     createCategory.mutateAsync({name: "New Category"}).then(invalidateCategories)
-  }
-
-  const handleGenerateCategories = () => {
-    generateCategories.mutateAsync("preparing for travel").then(invalidateCategories)
   }
   const hasData = data && data?.length > 0
   return (
@@ -62,7 +58,9 @@ export default function Home() {
         }
         <div className="actions">
           <Button variant="primary" onClick={handleCreateCategory}>Create a Category</Button>
-          <Button variant="gpt" onClick={handleGenerateCategories}>{`Use ChatGPT's help`}</Button>
+          <Link href={'generate'}>
+            <Button variant="gpt">{`Use ChatGPT's help`}</Button>
+          </Link>
         </div>
       </TasksContainer>
     </>
