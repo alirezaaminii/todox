@@ -16,6 +16,7 @@ There are a couple of things that can be improved in this application:
 1. Using Mongoose or creating your own models is better than touching the database every time!
 2. Configuring client error handling and showing a proper toast message to user.
 3. Consider using translations instead of hard-coding text into the code for better maintainability.
+4. Deleting categories
 
 
 ## Technical Details
