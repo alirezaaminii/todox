@@ -19,6 +19,10 @@ export const TaskStyles = styled.div<Props>`
   .delete-icon {
     display: none;
     cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+      display: block;
+    }
   }
   
   &:hover {

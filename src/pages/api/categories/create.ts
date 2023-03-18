@@ -20,7 +20,7 @@ export default function createCategory(
     return;
   }
 
-  const { categoryName = 'Unnamed' } = req.body;
+  const { categoryName = 'New Category' } = req.body;
 
   if (!categoryName) {
     res.status(400).json({ message: "Category name is required" });

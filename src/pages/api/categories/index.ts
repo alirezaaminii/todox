@@ -13,7 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const tasksData = extractFileData(tasksFilePath, {tasks: []});
 
     // Join tasks and categories data on categoryId and id properties
-    const categoriesWithTasks = (categoriesData ?? {categories: []}).categories.map((category: CategoryInterface) => {
+    const categoriesWithTasks = (categoriesData ?? {categories: []}).categories.reverse().map((category: CategoryInterface) => {
       const tasks = tasksData.tasks.filter((task: TaskInterface) => task.categoryId === category.id);
       return {...category, tasks};
     });

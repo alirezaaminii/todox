@@ -1,8 +1,12 @@
-import {useQuery} from "react-query";
-import {getCategories} from "@/services/endpoints/categories";
+import {useMutation, useQuery} from "react-query";
+import {createCategory, getCategories} from "@/services/endpoints/categories";
+import {CreateCategory} from "@/types";
 
 export function useCategories() {
   return useQuery(['categories'], () => getCategories(), {
     select: (res) => res.data,
   });
+}
+export function useCreateCategory() {
+  return useMutation([], (newCategory: CreateCategory) => createCategory(newCategory));
 }

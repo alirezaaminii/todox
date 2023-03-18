@@ -6,4 +6,8 @@ export interface CategoryInterface {
   tasks: TaskInterface[];
 }
 
+export interface CreateCategory {
+  name: string;
+}
+
 export default CategoryInterface
