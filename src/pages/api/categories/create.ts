@@ -1,26 +1,22 @@
-import fs from "fs";
-import {CategoryInterface} from "@/types";
-import {extractFileData} from "@/utils/extract-file-data";
-import {categoriesFilePath} from "@/pages/api/categories/index";
-import {NextApiRequest, NextApiResponse} from "next";
+import { CategoryInterface } from "@/types";
+import { NextApiRequest, NextApiResponse } from "next";
+import {connectToDatabase} from "@/utils/db";
 
-function getNextCategoryId(categories: CategoryInterface[]) {
-  const maxId = categories.reduce((max, category) => {
-    return category.id > max ? category.id : max;
-  }, 0);
-  return maxId + 1;
-}
+export const MONGO_URI = process.env.MONGO_URI || "";
+export const MONGO_DB = process.env.MONGO_DB || "";
+export const CATEGORIES_COLLECTION_NAME = "categories";
+export const TASKS_COLLECTION_NAME = "tasks";
 
-export default function createCategory(
+async function createCategory(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method not allowed" });
     return;
   }
 
-  const { categoryName = 'New Category' } = req.body;
+  const { categoryName = "New Category" } = req.body;
 
   if (!categoryName) {
     res.status(400).json({ message: "Category name is required" });
@@ -28,9 +24,11 @@ export default function createCategory(
   }
 
   try {
-    const categoriesData = extractFileData(categoriesFilePath, {categories: []})
+    const db = await connectToDatabase();
 
-    const nextCategoryId = getNextCategoryId(categoriesData.categories);
+    const collection = db.collection(CATEGORIES_COLLECTION_NAME);
+
+    const nextCategoryId = await collection.countDocuments({}) + 1;
 
     const newCategory: CategoryInterface = {
       id: nextCategoryId,
@@ -38,11 +36,12 @@ export default function createCategory(
       tasks: [],
     };
 
-    categoriesData.categories.push(newCategory);
-    fs.writeFileSync(categoriesFilePath, JSON.stringify(categoriesData));
+    await collection.insertOne(newCategory);
 
     res.status(201).json(newCategory);
   } catch (error) {
-    res.status(500).json({message: "Error creating category and task"});
+    res.status(500).json({ message: "Error creating category and task" });
   }
 }
+
+export default createCategory;
