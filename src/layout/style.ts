@@ -95,5 +95,7 @@ export const GenerateCategoriesFormStyles = styled.form`
     width: calc(100% - 32px);
     height: 32px;
     display: block;
+    font-size: 14px;
+    line-height: 14px;
   }
 `;
