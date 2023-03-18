@@ -4,29 +4,45 @@ import {TaskStyles} from "@/components/task/style";
 import Checkbox from "@/components/checkbox";
 import {useBoolean} from "@/hooks/useBoolean";
 import TextArea from "@/components/textarea";
-import {DeleteIcon} from "@/components/icons";
+import {DeleteIcon, LoadingIcon} from "@/components/icons";
+import {useDeleteTasks, useUpdateTask} from "@/hooks/data/tasks";
+import {useQueryClient} from "react-query";
 
-interface Props extends TaskInterface {
-  onChange: (task: TaskInterface) => void;
-  onDelete: (taskId: number) => void;
-}
+interface Props extends TaskInterface {}
 
 export const Task: React.FunctionComponent<Props> = (props) => {
   const [isChecked, {toggle}] = useBoolean(props.status === "done");
+  const deleteTasks = useDeleteTasks();
+  const queryClient = useQueryClient();
+  const updateTask = useUpdateTask();
+  const handleUpdateTask = (task: TaskInterface) => {
+    updateTask.mutateAsync(task).then(invalidateCategories)
+  }
   const handleToggleTask = () => {
     toggle();
-    props.onChange({...props, status: props.status === 'done' ? 'pending' : 'done'})
+    handleUpdateTask({...props, status: props.status === 'done' ? 'pending' : 'done'})
   }
 
   const handleChangeTask = (name: string) => {
-    props.onChange({...props, name})
+    handleUpdateTask({...props, name})
   }
+
+  const handleDeleteTask = () => {
+    deleteTasks.mutateAsync([props.id]).then(invalidateCategories)
+  }
+  const invalidateCategories = () => {
+    queryClient.invalidateQueries({queryKey: ['categories'],});
+  }
+  const isLoading = deleteTasks.isLoading || updateTask.isLoading
   return (
     <TaskStyles status={props.status}>
       <Checkbox onChange={handleToggleTask} name={props.id.toString()} checked={isChecked}/>
       <TextArea placeholder="Write the task name..." onSubmit={handleChangeTask} taskName={props.name}/>
-      {props.status === 'pending' ?
-        <DeleteIcon className="delete-icon" onClick={() => props.onDelete(props.id)}/> : null}
+      {
+        isLoading ? <LoadingIcon /> : null
+      }
+      {!isLoading && props.status === 'pending' ?
+        <DeleteIcon className="delete-icon" onClick={handleDeleteTask}/> : null}
     </TaskStyles>
   )
 }

@@ -5,7 +5,7 @@ import {useBoolean} from "@/hooks/useBoolean";
 import {CategoryStyles} from "@/components/category/style";
 import {AngleDownIcon, FolderIcon, OptionsIcon} from "@/components/icons";
 import Task from "@/components/task";
-import {useCreateTask, useDeleteTasks, useUpdateTask} from "@/hooks/data/tasks";
+import {useCreateTask, useDeleteTasks} from "@/hooks/data/tasks";
 import {useQueryClient} from "react-query";
 import NewTask from "@/components/new-task"
 import DropDown from "@/components/dropdown";
@@ -18,8 +18,6 @@ interface Props extends CategoryInterface {
 
 export const Category: React.FunctionComponent<Props> = (props) => {
   const queryClient = useQueryClient();
-  const updateTask = useUpdateTask();
-  const createTask = useCreateTask();
   const deleteTasks = useDeleteTasks();
   const updateCategory = useUpdateCategory();
   const [isOpen, setIsOpenActions] = useBoolean(props.isOpen);
@@ -45,14 +43,6 @@ export const Category: React.FunctionComponent<Props> = (props) => {
 
   const handleInputFocus = (event: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     event.stopPropagation();
-  }
-
-  const handleUpdateTask = (task: TaskInterface) => {
-    updateTask.mutateAsync(task).then(invalidateCategories)
-  }
-
-  const handleCreateTask = (taskName: string) => {
-    createTask.mutateAsync({name: taskName, categoryId: props.id}).then(invalidateCategories)
   }
 
   const handleDeleteTasks = (taskIds: number[]) => {
@@ -103,14 +93,12 @@ export const Category: React.FunctionComponent<Props> = (props) => {
             <div className="category-tasks">
               {props.tasks.map((task) =>
                 <Task
-                  onDelete={(taskId) => handleDeleteTasks([taskId])}
-                  onChange={handleUpdateTask}
                   key={task.id}
                   {...task}
                 />
               )}
             </div>
-            <NewTask onChange={handleCreateTask}/>
+            <NewTask categoryId={props.id} />
           </>
         )
       }

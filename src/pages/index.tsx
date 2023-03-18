@@ -5,7 +5,6 @@ import {useCategories, useCreateCategory} from "@/hooks/data/categories";
 import {Loading} from "@/components/loading";
 import NewTask from "@/components/new-task";
 import {useQueryClient} from "react-query";
-import {useCreateTask} from "@/hooks/data/tasks";
 import {TasksContainer} from "@/layout/style";
 import Button from "@/components/button";
 import Link from "next/link";
@@ -13,13 +12,9 @@ import Link from "next/link";
 export default function Home() {
   const {data, isLoading, isRefetching} = useCategories();
   const queryClient = useQueryClient();
-  const createTask = useCreateTask();
   const createCategory = useCreateCategory();
   const invalidateCategories = () => {
     queryClient.invalidateQueries({queryKey: ['categories'],});
-  }
-  const handleCreateTask = (taskName: string) => {
-    createTask.mutateAsync({name: taskName}).then(invalidateCategories)
   }
   const handleCreateCategory = () => {
     createCategory.mutateAsync({name: "New Category"}).then(invalidateCategories)
@@ -52,12 +47,16 @@ export default function Home() {
 
         {!isLoading && data?.length === 0
           ? <div className="create-task">
-            <NewTask onChange={handleCreateTask} hideCheckbox/>
+            <NewTask hideCheckbox/>
           </div>
           : null
         }
         <div className="actions">
-          <Button variant="primary" onClick={handleCreateCategory}>Create a Category</Button>
+          <Button
+            variant="primary"
+            onClick={handleCreateCategory}>
+            {createCategory.isLoading ? 'Creating...' : 'Create a Category'}
+          </Button>
           <Link href={'generate'}>
             <Button variant="gpt">{`Use ChatGPT's help`}</Button>
           </Link>
