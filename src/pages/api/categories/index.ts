@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/utils/db';
-import {CATEGORIES_COLLECTION_NAME} from "@/pages/api/categories/create";
+import {CATEGORIES_COLLECTION_NAME} from "@/constants";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {

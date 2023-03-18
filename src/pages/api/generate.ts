@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { splitItems } from "@/utils/split-items";
 import { capitalize } from "@/utils/capitalize";
 import { connectToDatabase } from "@/utils/db";
+import {CATEGORIES_COLLECTION_NAME} from "@/constants";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -44,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       name: capitalize(categoryName)
     }));
 
-    const result = await db.collection("categories").insertMany(categoryDocs);
+    const result = await db.collection(CATEGORIES_COLLECTION_NAME).insertMany(categoryDocs);
 
     res.status(200).json({ message: `Inserted ${result.insertedCount} documents.` });
   } catch(error: any) {

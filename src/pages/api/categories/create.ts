@@ -1,11 +1,7 @@
 import { CategoryInterface } from "@/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import {connectToDatabase} from "@/utils/db";
-
-export const MONGO_URI = process.env.MONGO_URI || "";
-export const MONGO_DB = process.env.MONGO_DB || "";
-export const CATEGORIES_COLLECTION_NAME = "categories";
-export const TASKS_COLLECTION_NAME = "tasks";
+import {CATEGORIES_COLLECTION_NAME} from "@/constants";
 
 async function createCategory(
   req: NextApiRequest,

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CategoryInterface } from '@/types';
 import { connectToDatabase } from '@/utils/db';
+import {CATEGORIES_COLLECTION_NAME} from "@/constants";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -14,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       const db = await connectToDatabase();
-      const categoriesCollection = db.collection<CategoryInterface>('categories');
+      const categoriesCollection = db.collection<CategoryInterface>(CATEGORIES_COLLECTION_NAME);
 
       const categoryToUpdate = await categoriesCollection.findOne({
         id: Number(id),

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/utils/db';
 import { TaskInterface } from '@/types';
+import {TASKS_COLLECTION_NAME} from "@/constants";
 
 export default async function deleteTasks(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'DELETE') {
@@ -17,7 +18,7 @@ export default async function deleteTasks(req: NextApiRequest, res: NextApiRespo
 
   try {
     const db = await connectToDatabase();
-    const tasksCollection = db.collection<TaskInterface>('tasks');
+    const tasksCollection = db.collection<TaskInterface>(TASKS_COLLECTION_NAME);
 
     await tasksCollection.deleteMany({ id: { $in: ids } });
 

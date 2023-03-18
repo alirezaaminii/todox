@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/utils/db';
 import { TaskInterface } from '@/types';
+import {TASKS_COLLECTION_NAME} from "@/constants";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +12,7 @@ export default async function handler(
     const { name, status, categoryId } = req.body;
 
     const db = await connectToDatabase();
-    const tasksCollection = db.collection<TaskInterface>('tasks');
+    const tasksCollection = db.collection<TaskInterface>(TASKS_COLLECTION_NAME);
 
     const taskToUpdate = await tasksCollection.findOne({ id: Number(id) });
 

@@ -5,7 +5,7 @@ import {useBoolean} from "@/hooks/useBoolean";
 import {CategoryStyles} from "@/components/category/style";
 import {AngleDownIcon, FolderIcon, OptionsIcon} from "@/components/icons";
 import Task from "@/components/task";
-import {useCreateTask, useDeleteTasks} from "@/hooks/data/tasks";
+import {useDeleteTasks} from "@/hooks/data/tasks";
 import {useQueryClient} from "react-query";
 import NewTask from "@/components/new-task"
 import DropDown from "@/components/dropdown";
