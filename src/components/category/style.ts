@@ -47,7 +47,7 @@ export const CategoryStyles = styled.div<Props>`
 
         color: ${colors.primary};
 
-        &:focus {
+        &:hover, &:focus {
           outline: 0;
           border-bottom: 1px solid ${colors.primary};
         }

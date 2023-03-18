@@ -26,3 +26,12 @@ export const updateCategory = (category: CategoryInterface) =>
       data: category
     },
   });
+
+export const generateCategories = (description: string) =>
+  NetworkService.request<null, {description: string}, { result: string }>({
+    config: {
+      method: 'POST',
+      url: `generate`,
+      data: {description}
+    },
+  });

@@ -26,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           headers: {"Content-Type": "application/json"}
         })
         const data = await response.json();
-        console.log(data);
         categoryId = data.id;
       }
       const task: TaskInterface = {id: newTaskId, createdAt: Date.now(), name, categoryId, status: 'pending'};

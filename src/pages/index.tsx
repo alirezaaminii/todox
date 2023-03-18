@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Category from "@/components/category";
 import React from "react";
-import {useCategories, useCreateCategory} from "@/hooks/data/categories";
+import {useCategories, useCreateCategory, useGenerateCategories} from "@/hooks/data/categories";
 import {Loading} from "@/components/loading";
 import NewTask from "@/components/new-task";
 import {useQueryClient} from "react-query";
@@ -14,15 +14,19 @@ export default function Home() {
   const queryClient = useQueryClient();
   const createTask = useCreateTask();
   const createCategory = useCreateCategory();
+  const generateCategories = useGenerateCategories();
+  const invalidateCategories = () => {
+    queryClient.invalidateQueries({queryKey: ['categories'],});
+  }
   const handleCreateTask = (taskName: string) => {
-    createTask.mutateAsync({name: taskName}).then(() => {
-      queryClient.invalidateQueries({queryKey: ['categories'],});
-    })
+    createTask.mutateAsync({name: taskName}).then(invalidateCategories)
   }
   const handleCreateCategory = () => {
-    createCategory.mutateAsync({name: "New Category"}).then(() => {
-      queryClient.invalidateQueries({queryKey: ['categories'],});
-    })
+    createCategory.mutateAsync({name: "New Category"}).then(invalidateCategories)
+  }
+
+  const handleGenerateCategories = () => {
+    generateCategories.mutateAsync("preparing for travel").then(invalidateCategories)
   }
   const hasData = data && data?.length > 0
   return (
@@ -58,6 +62,7 @@ export default function Home() {
         }
         <div className="actions">
           <Button variant="primary" onClick={handleCreateCategory}>Create a Category</Button>
+          <Button variant="gpt" onClick={handleGenerateCategories}>{`Use ChatGPT's help`}</Button>
         </div>
       </TasksContainer>
     </>
